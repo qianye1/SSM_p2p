@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gxa.cdut.mapper.bidRequestMapper">
+
+    <select id="selectById" parameterType="int" resultType="com.gxa.cdut.domain.BidRequest">
+        select
+           id,version,bidRequestType,bidRequestState,bidRequestAmount,currentRate,monthes2Return,bidCount,totalRewardAmount,currentSum,title,description,note,disableDate,createuser_id,disableDays,minBidAmount,applyTime,publishTime,returnType
+        from
+           bidrequest
+        where
+           id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.BidRequest" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into
+            bidrequest (version,bidRequestType,bidRequestState,bidRequestAmount,currentRate,monthes2Return,bidCount,totalRewardAmount,currentSum,title,description,note,disableDate,createuser_id,disableDays,minBidAmount,applyTime,publishTime,returnType)
+        values (
+            #{version},
+            #{bidRequestType},
+            #{bidRequestState},
+            #{bidRequestAmount},
+            #{currentRate},
+            #{monthes2Return},
+            #{bidCount},
+            #{totalRewardAmount},
+            #{currentSum},
+            #{title},
+            #{description},
+            #{note},
+            #{disableDate},
+            #{createuser_id},
+            #{disableDays},
+            #{minBidAmount},
+            #{applyTime},
+            #{publishTime},
+            #{returnType}
+        )
+
+    </insert>
+    
+    <select id="selectCount" parameterType="com.gxa.cdut.Query.BidRequestQueryObject" resultType="int">
+        select 
+            count(id)
+        from 
+            bidrequest
+        where
+            bidRequestState=#{bidRequestState}
+    </select>
+    
+    <select id="selectPage" parameterType="com.gxa.cdut.Query.BidRequestQueryObject" resultType="com.gxa.cdut.domain.BidRequest">
+        select
+           id,version,bidRequestType,bidRequestState,bidRequestAmount,currentRate,monthes2Return,bidCount,totalRewardAmount,currentSum,title,description,note,disableDate,createuser_id,disableDays,minBidAmount,applyTime,publishTime,returnType
+        from
+           bidrequest
+        where
+            bidRequestState=#{bidRequestState}
+        order by applyTime desc
+        limit #{start},#{pageSize}
+    </select>
+
+    <update id="updateConfirm" parameterType="com.gxa.cdut.domain.BidRequest">
+        update
+           bidrequest
+        set
+           note = #{note},
+           disableDate = #{disableDate},
+           bidRequestState = #{bidRequestState},
+           publishTime = #{publishTime}
+        where
+           id = #{id}
+    </update>
+
+</mapper>

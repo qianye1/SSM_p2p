@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gxa.cdut.mapper.bidRequestAuditHistoryMapper">
+
+    <resultMap id="baseDomain" type="com.gxa.cdut.util.BaseDomain">
+        <result property="id" column="id"/>
+    </resultMap>
+
+    <resultMap id="baseAuditDomain" type="com.gxa.cdut.domain.BaseAuditDomain" extends="baseDomain">
+        <result property="state" column="state"/>
+        <result property="remark" column="remark"/>
+        <result property="auditTime" column="auditTime"/>
+        <result property="applyTime" column="applyTime"/>
+        <result property="auditor_id" column="auditor_id"/>
+        <result property="applier_id" column="applier_id"/>
+    </resultMap>
+
+    <resultMap id="bidRequestAuditHistory" type="com.gxa.cdut.domain.BidRequestAuditHistory" extends="baseAuditDomain">
+        <result property="bidRequestId" column="bidRequestId"/>
+        <result property="auditType" column="auditType"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.BidRequestAuditHistory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into
+             bidrequestaudithistory (state,remark,auditTime,applyTime,auditor_id,applier_id,bidRequestId,auditType)
+        values (
+             #{state},
+             #{remark},
+             #{auditTime,jdbcType=TIMESTAMP},
+             #{applyTime,jdbcType=TIMESTAMP},
+             #{auditor_id},
+             #{applier_id},
+             #{bidRequestId},
+             #{auditType}
+        )
+    </insert>
+
+    <select id="selectById" parameterType="int" resultType="com.gxa.cdut.domain.BidRequestAuditHistory">
+        select
+           id,state,remark,auditTime,applyTime,auditor_id,applier_id,bidRequestId,auditType
+        from bidrequestaudithistory
+        where
+           id = #{id}
+    </select>
+
+    <select id="selectByBidId" parameterType="int" resultType="com.gxa.cdut.domain.BidRequestAuditHistory">
+        select
+           id,state,remark,auditTime,applyTime,auditor_id,applier_id,bidRequestId,auditType
+        from bidrequestaudithistory
+        where
+           bidRequestId = #{bidRequestId}
+    </select>
+
+</mapper>

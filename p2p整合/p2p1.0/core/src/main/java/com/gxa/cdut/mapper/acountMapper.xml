@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gxa.cdut.mapper.acountMapper">
+
+    <select id="selectById" parameterType="int" resultType="com.gxa.cdut.domain.Acount">
+        select
+              id,tradePassword,usableAmount,freezedAmount,borrowLimit,version,unReceiveInterest,unReceivePrincipal,unReturnAmount,remainBorrowLimit
+        from
+              account
+        where
+              id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.Acount">
+        insert into
+             account (id,tradePassword,usableAmount,freezedAmount,borrowLimit,version,unReceiveInterest,unReceivePrincipal,unReturnAmount,remainBorrowLimit)
+        values (
+             #{id},
+             #{tradePassword},
+             #{usableAmount},
+             #{freezedAmount},
+             #{borrowLimit},
+             #{version},
+             #{unReceiveInterest},
+             #{unReceivePrincipal},
+             #{unReturnAmount},
+             #{remainBorrowLimit}
+             )
+    </insert>
+
+    <update id="updateById" parameterType="com.gxa.cdut.domain.Acount">
+    update `account`
+    set
+      usableAmount = #{usableAmount,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

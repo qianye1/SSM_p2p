@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gxa.cdut.mapper.detailMapper">
+
+
+    <resultMap id="DetailItems" type="com.gxa.cdut.domain.Detail">
+
+        <result property="id" column="id"/>
+        <result property="version" column="version"/>
+        <result property="bitState" column="bitState"/>
+        <result property="realName" column="realName"/>
+        <result property="idNumber" column="idNumber"/>
+        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="authScore" column="authScore"/>
+        <result property="realauthid" column="realauthid"/>
+        <result property="email" column="email"/>
+
+        <association property="educationBackgroudItem" javaType="com.gxa.cdut.util.Item"
+                     column="educationbackground_id"
+                     select="com.gxa.cdut.mapper.systemDictionaryMapper.selectByCurrentId"/>
+        <association property="incomeGradeItem" javaType="com.gxa.cdut.util.Item"
+                     column="incomeGrade_id"
+                     select="com.gxa.cdut.mapper.systemDictionaryMapper.selectByCurrentId"/>
+        <association property="marriageItem" javaType="com.gxa.cdut.util.Item"
+                     column="marriage_id"
+                     select="com.gxa.cdut.mapper.systemDictionaryMapper.selectByCurrentId"/>
+        <association property="kidCountItem" javaType="com.gxa.cdut.util.Item"
+                     column="kidCount_id"
+                     select="com.gxa.cdut.mapper.systemDictionaryMapper.selectByCurrentId"/>
+        <association property="houseConditionItem" javaType="com.gxa.cdut.util.Item"
+                     column="houseCondition_id"
+                     select="com.gxa.cdut.mapper.systemDictionaryMapper.selectByCurrentId"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.Detail">
+        insert into
+            userinfo (id,version,bitState,realName,idNumber,phoneNumber,incomeGrade_id,marriage_id,kidCount_id,educationBackground_id,authScore,houseCondition_id,realauthid,email)
+        values (
+            #{id},
+            #{version},
+            #{bitState},
+            #{realName},
+            #{idNumber},
+            #{phoneNumber},
+            #{incomeGrade_id},
+            #{marriage_id},
+            #{kidCount_id},
+            #{educationBackground_id},
+            #{authScore},
+            #{houseCondition_id},
+            #{realauthid},
+            #{email}
+        )
+    </insert>
+
+    <select id="selectById" parameterType="int" resultType="com.gxa.cdut.domain.Detail">
+        select
+            id,version,bitState,realName,idNumber,phoneNumber,incomeGrade_id,marriage_id,kidCount_id,educationBackground_id,authScore,houseCondition_id,realauthid,email
+        from
+            userinfo
+        where
+            id = #{id}
+    </select>
+
+    <select id="selectItems" parameterType="int" resultMap="DetailItems">
+        select
+            id,version,bitState,realName,idNumber,phoneNumber,incomeGrade_id,marriage_id,kidCount_id,educationBackground_id,authScore,houseCondition_id,realauthid,email
+        from
+            userinfo
+        where
+            id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.gxa.cdut.domain.Detail">
+        update
+           userinfo
+        set
+           id = #{id},
+           version = #{version},
+           bitState = #{bitState},
+           realName = #{realName},
+           idNumber = #{idNumber},
+           phoneNumber = #{phoneNumber},
+           incomeGrade_id = #{incomeGrade_id},
+           marriage_id = #{marriage_id},
+           kidCount_id = #{kidCount_id},
+           educationBackground_id = #{educationBackground_id},
+           authScore = #{authScore},
+           houseCondition_id = #{houseCondition_id},
+           realauthid = #{realauthid},
+           email = #{email}
+        where
+           id = #{id}
+    </update>
+
+</mapper>

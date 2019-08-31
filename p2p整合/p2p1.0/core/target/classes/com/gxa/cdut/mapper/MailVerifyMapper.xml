@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gxa.cdut.mapper.MailVerifyMapper">
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.MailVerify">
+        insert into
+            mailverify (id,logininfo_id,email,sendTime,uuid)
+        values (
+            #{id},
+            #{logininfo_id},
+            #{email},
+            #{sendTime},
+            #{uuid}
+        )
+
+    </insert>
+
+    <select id="selectByUUID" parameterType="String" resultType="com.gxa.cdut.domain.MailVerify">
+        select
+           id,logininfo_id,email,sendTime,uuid
+        from
+           mailverify
+        where
+            uuid = #{uuid}
+    </select>
+
+</mapper>

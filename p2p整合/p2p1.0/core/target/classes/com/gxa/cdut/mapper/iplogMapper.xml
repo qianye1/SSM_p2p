@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gxa.cdut.mapper.iplogMapper">
+
+    <resultMap id="IplogMap" type="com.gxa.cdut.domain.Iplog">
+
+        <result property="id" column="id"/>
+        <result property="state" column="state"/>
+        <result property="username" column="username"/>
+        <result property="loginInfoId" column="loginInfoId"/>
+        <result property="userType" column="userType"/>
+        <result property="loginTime" column="loginTime" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="com.gxa.cdut.domain.Iplog" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            iplog (ip,state,username,loginInfoId,userType,loginTime)
+        values (
+            #{ip,jdbcType=VARCHAR},
+            #{state,jdbcType=TINYINT},
+            #{username,jdbcType=VARCHAR},
+            #{loginInfoId,jdbcType=BIGINT},
+            #{userType,jdbcType=TINYINT},
+            #{loginTime,jdbcType=TIMESTAMP}
+         )
+    </insert>
+
+    <select id="selectTotalCount" parameterType="com.gxa.cdut.Query.IplogQueryObject" resultType="int">
+        select
+           count(id)
+        from
+           iplog
+        <where>
+            <if test="beginDate!=null and beginDate!='' and endDate!=null and endDate!='' ">
+                and loginTime between #{beginDate} and #{endDate}
+            </if>
+            <if test="state!=null and state!='-1'.toString() ">
+                and state = #{state}
+            </if>
+            <if test="username!=null">
+                and username = #{username}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectPage" parameterType="com.gxa.cdut.Query.IplogQueryObject" resultMap="IplogMap">
+        select
+            ip,state,username,loginInfoId,userType,loginTime
+        from
+           iplog
+        <where>
+           <if test="beginDate!=null and beginDate!='' and endDate!=null and endDate!='' ">
+                and loginTime between #{beginDate} and #{endDate}
+           </if>
+           <if test="state!=null and state!='-1'.toString() ">
+                and state = #{state}
+           </if>
+            <if test="username!=null">
+                and username = #{username}
+            </if>
+        </where>
+        order by loginTime desc
+        limit #{start},#{pageSize}
+    </select>
+
+</mapper>
